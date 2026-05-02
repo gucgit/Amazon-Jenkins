@@ -23,17 +23,17 @@ pipeline {
         success{
             echo 'Build success 1'
             sh '''
-            curl -X POST -H 'Content-type: application/json' \
-            --data '{"text":"✅ Build #${BUILD_NUMBER} SUCCESS - Amazon-Jenkins"}' \
-            https://hooks.slack.com/services/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
+            SLACK_URL="https://hooks.slack.com/services/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"
+            PAYLOAD='{"text":"✅ Build #'${BUILD_NUMBER}' SUCCESS - Amazon-Jenkins"}'
+            curl -X POST -H "Content-type: application/json" -d "$PAYLOAD" "$SLACK_URL"
             '''
         }
         failure{
             echo 'Failure in the build'
             sh '''
-            curl -X POST -H 'Content-type: application/json' \
-            --data '{"text":"❌ Build #${BUILD_NUMBER} FAILED - Amazon-Jenkins"}' \
-            https://hooks.slack.com/services/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
+            SLACK_URL="https://hooks.slack.com/services/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"
+            PAYLOAD='{"text":"❌ Build #'${BUILD_NUMBER}' FAILED - Amazon-Jenkins"}'
+            curl -X POST -H "Content-type: application/json" -d "$PAYLOAD" "$SLACK_URL"
             '''
         }
     }
