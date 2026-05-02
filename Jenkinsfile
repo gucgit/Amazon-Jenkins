@@ -14,27 +14,37 @@ pipeline {
         }
         stage('build') {
             steps {
-                 sh 'mvn clean install'
+                sh 'mvn clean install'
             }
         }
-        
     }
-    post{
-        success{
+    
+    post {
+        success {
             echo 'Build success 1'
-            sh '''
-            curl -X POST -H "Content-type: application/json" \
-            -d '{"text":"✅ Build #${BUILD_NUMBER} SUCCESS - Amazon-Jenkins"}' \
-            https://hooks.slack.com/services/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
-            '''
+            script {
+                def buildNum = env.BUILD_NUMBER
+                def slackMessage = "{\"text\":\"✅ Build #${buildNum} SUCCESS - Amazon-Jenkins\"}"
+                sh """
+                curl -X POST \\
+                  -H 'Content-type: application/json' \\
+                  --data '${slackMessage}' \\
+                  https://hooks.slack.com/services/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
+                """
+            }
         }
-        failure{
+        failure {
             echo 'Failure in the build'
-            sh '''
-            curl -X POST -H "Content-type: application/json" \
-            -d '{"text":"❌ Build #${BUILD_NUMBER} FAILED - Amazon-Jenkins"}' \
-            https://hooks.slack.com/services/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
-            '''
+            script {
+                def buildNum = env.BUILD_NUMBER
+                def slackMessage = "{\"text\":\"❌ Build #${buildNum} FAILED - Amazon-Jenkins\"}"
+                sh """
+                curl -X POST \\
+                  -H 'Content-type: application/json' \\
+                  --data '${slackMessage}' \\
+                  https://hooks.slack.com/services/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
+                """
+            }
         }
     }
 }
