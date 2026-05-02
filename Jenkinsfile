@@ -23,17 +23,17 @@ pipeline {
         success{
             echo 'Build success 1'
             sh '''
-            SLACK_URL="https://hooks.slack.com/services/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"
-            PAYLOAD='{"text":"✅ Build #'${BUILD_NUMBER}' SUCCESS - Amazon-Jenkins"}'
-            curl -X POST -H "Content-type: application/json" -d "$PAYLOAD" "$SLACK_URL"
+            curl -X POST -H "Content-type: application/json" \
+            -d '{"text":"✅ Build #${BUILD_NUMBER} SUCCESS - Amazon-Jenkins"}' \
+            https://hooks.slack.com/services/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
             '''
         }
         failure{
             echo 'Failure in the build'
             sh '''
-            SLACK_URL="https://hooks.slack.com/services/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"
-            PAYLOAD='{"text":"❌ Build #'${BUILD_NUMBER}' FAILED - Amazon-Jenkins"}'
-            curl -X POST -H "Content-type: application/json" -d "$PAYLOAD" "$SLACK_URL"
+            curl -X POST -H "Content-type: application/json" \
+            -d '{"text":"❌ Build #${BUILD_NUMBER} FAILED - Amazon-Jenkins"}' \
+            https://hooks.slack.com/services/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
             '''
         }
     }
