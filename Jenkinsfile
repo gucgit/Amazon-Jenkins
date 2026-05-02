@@ -28,20 +28,10 @@ pipeline {
             echo 'Build success 1'
             script {
                 sh '''
-                curl -X POST -H 'Content-type: application/json' \
-                --data '{
-                    "text": "✅ Jenkins Build #${BUILD_NUMBER} SUCCESS",
-                    "attachments": [{
-                        "color": "#36a64f",
-                        "fields": [
-                            {"title": "Job", "value": "Amazon-Jenkins", "short": true},
-                            {"title": "Build #", "value": "${BUILD_NUMBER}", "short": true},
-                            {"title": "Branch", "value": "main", "short": true},
-                            {"title": "Status", "value": "SUCCESS", "short": true}
-                        ]
-                    }]
-                }' \
-                ${SLACK_WEBHOOK}
+                curl -X POST \
+                  -H 'Content-type: application/json' \
+                  --data '{"text":"✅ Jenkins Build #${BUILD_NUMBER} SUCCESS","attachments":[{"color":"#36a64f","fields":[{"title":"Job","value":"Amazon-Jenkins","short":true},{"title":"Build #","value":"${BUILD_NUMBER}","short":true},{"title":"Branch","value":"main","short":true},{"title":"Status","value":"SUCCESS","short":true}]}]}' \
+                  ${SLACK_WEBHOOK}
                 '''
             }
         }
@@ -49,20 +39,10 @@ pipeline {
             echo 'Failure in the build'
             script {
                 sh '''
-                curl -X POST -H 'Content-type: application/json' \
-                --data '{
-                    "text": "❌ Jenkins Build #${BUILD_NUMBER} FAILED",
-                    "attachments": [{
-                        "color": "#dc3545",
-                        "fields": [
-                            {"title": "Job", "value": "Amazon-Jenkins", "short": true},
-                            {"title": "Build #", "value": "${BUILD_NUMBER}", "short": true},
-                            {"title": "Branch", "value": "main", "short": true},
-                            {"title": "Status", "value": "FAILED", "short": true}
-                        ]
-                    }]
-                }' \
-                ${SLACK_WEBHOOK}
+                curl -X POST \
+                  -H 'Content-type: application/json' \
+                  --data '{"text":"❌ Jenkins Build #${BUILD_NUMBER} FAILED","attachments":[{"color":"#dc3545","fields":[{"title":"Job","value":"Amazon-Jenkins","short":true},{"title":"Build #","value":"${BUILD_NUMBER}","short":true},{"title":"Branch","value":"main","short":true},{"title":"Status","value":"FAILED","short":true}]}]}' \
+                  ${SLACK_WEBHOOK}
                 '''
             }
         }
